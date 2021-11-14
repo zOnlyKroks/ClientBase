@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "clientbase",
+  "version": "${version}",
+  "name": "Client_Base_1.16",
+  "description": "0x150, zOnlyKroks, LordLoading",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "",
+  "environment": "client",
+  "entrypoints": {},
+  "mixins": [
+    "ClientBase.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.5",
+    "minecraft": "1.16.5"
+  }
+}
