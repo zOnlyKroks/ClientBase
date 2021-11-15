@@ -1,5 +1,6 @@
 package de.client.base.module;
 
+import de.client.base.module.modules.BasicModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ModuleManager {
     }
 
     public void addModules() {
-        //addModule(new Class()) Class extends Module
+        addModule(new BasicModule());
     }
 
     private void addModule(Module module) {

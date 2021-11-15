@@ -4,6 +4,7 @@
   "package": "de.client.base.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ClientWorldMixin"
   ],
   "client": [
   ],

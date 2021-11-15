@@ -12,5 +12,6 @@ public class ClientBase implements ModInitializer {
     @Override
     public void onInitialize() {
         moduleManager = new ModuleManager();
+        System.out.println("Initialized Client");
     }
 }

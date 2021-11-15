@@ -42,10 +42,11 @@ public abstract class Module {
         return toggled;
     }
 
-    public void setToggled(boolean toggled) {
-        if(toggled) {
+    public void toggle() {
+        toggled = !toggled;
+        if (toggled) {
             onEnable();
-        }else {
+        } else {
             onDisable();
         }
     }
