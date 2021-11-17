@@ -1,6 +1,6 @@
 package de.client.base.module;
 
-import de.client.base.module.modules.BasicModule;
+import de.client.base.module.modules.movement.BasicStepModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class ModuleManager {
     }
 
     public void addModules() {
-        addModule(new BasicModule());
+        addModule(new BasicStepModule());
     }
 
     private void addModule(Module module) {
@@ -34,5 +34,11 @@ public class ModuleManager {
         }
 
         return null;
+    }
+
+    public void handleKeypress(int key) {
+        for(Module module : modules) {
+            if(module.getKeybind() == key) module.toggle();
+        }
     }
 }

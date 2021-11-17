@@ -1,5 +1,6 @@
 package de.client.base.module;
 
+import de.client.base.eventapi.EventManager;
 import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
