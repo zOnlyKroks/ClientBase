@@ -1,13 +1,17 @@
 package de.client.base.command;
 
+import net.minecraft.client.MinecraftClient;
+
 public class Command {
 
+    public MinecraftClient mc;
     private String command;
     private String alias;
 
     public Command(String command, String alias) {
         this.command = command;
         this.alias = alias;
+        this.mc = MinecraftClient.getInstance();
     }
 
     public String getCommand() {
@@ -18,5 +22,5 @@ public class Command {
         return alias;
     }
 
-    public void runCommand() {}
+    public void runCommand(String trimmedMessage) {}
 }

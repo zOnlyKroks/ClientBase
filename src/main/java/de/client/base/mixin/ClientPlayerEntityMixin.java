@@ -4,6 +4,7 @@ import de.client.base.ClientBase;
 import de.client.base.command.Command;
 import de.client.base.event.MoveEvent;
 import de.client.base.eventapi.EventManager;
+import de.client.base.util.ChatUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
@@ -29,7 +30,9 @@ public class ClientPlayerEntityMixin {
         if(message.charAt(0) == '.') {
             for(Command cmd : ClientBase.getCommandManager().getModules()) {
                 if(message.contains(cmd.getAlias())) {
-                    cmd.runCommand();
+                    String trimmedMessage = message.replace(".", "");
+                    String moreTrimmedMessage = trimmedMessage.replace(cmd.getAlias() + "", "");
+                    cmd.runCommand(moreTrimmedMessage);
                 }
             }
         }else{

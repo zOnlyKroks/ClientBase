@@ -1,22 +1,23 @@
 package de.client.base.module;
 
-import de.client.base.eventapi.EventManager;
+import de.client.base.config.ModuleConfig;
 import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
 
+    public final ModuleConfig config;
     protected static final MinecraftClient mc = MinecraftClient.getInstance();
     private String name;
     private String description;
     private Category category;
-    private int keybind;
     private boolean toggled;
 
-    protected Module(String name, String description, Category category, int keybind) {
+    protected Module(String name, String description, Category category) {
         this.name = name;
         this.description = description;
         this.category = category;
-        this.keybind = keybind;
+        this.config = new ModuleConfig();
+        this.config.create("Keybind", -1).description("The keybind to toggle the module with");
     }
 
     public String getName() {
@@ -29,14 +30,6 @@ public abstract class Module {
 
     public Category getCategory() {
         return category;
-    }
-
-    public int getKeybind() {
-        return keybind;
-    }
-
-    public void setKeybind(int keybind) {
-        this.keybind = keybind;
     }
 
     public boolean isToggled() {
