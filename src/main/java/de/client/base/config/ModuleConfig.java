@@ -2,14 +2,14 @@ package de.client.base.config;
 
 import net.minecraft.util.math.MathHelper;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleConfig {
 
-    final  List<DynamicValue<?>> config               = new ArrayList<>();
-    final  List<Propgroup>       groups               = new ArrayList<>();
+    final List<DynamicValue<?>> config = new ArrayList<>();
+    final List<Propgroup>       groups = new ArrayList<>();
     //public boolean               organizeClickGUIList = true;
 
     public void addProxy(DynamicValue<?> v) {

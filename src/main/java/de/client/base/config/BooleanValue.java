@@ -6,8 +6,7 @@ public class BooleanValue extends DynamicValue<Boolean> {
         super(key, value);
     }
 
-    @Override
-    public void setValue(Object value) {
+    @Override public void setValue(Object value) {
         if (!(value instanceof Boolean)) {
             return;
         }

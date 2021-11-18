@@ -4,7 +4,7 @@ import de.client.base.eventapi.Event;
 
 public class KeyboardEvent implements Event {
 
-    private int key;
+    private final int key;
 
     public KeyboardEvent(int key) {
         this.key = key;

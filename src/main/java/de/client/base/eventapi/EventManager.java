@@ -16,7 +16,9 @@ public class EventManager {
 
     public static void register(Object object) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
-            if(isMethodBad(method)) continue;
+            if (isMethodBad(method)) {
+                continue;
+            }
             register(method, object);
         }
     }
@@ -49,7 +51,9 @@ public class EventManager {
         } else {
             REGISTRY_MAP.put(indexClass, new CopyOnWriteArrayList<MethodData>() {
                 //Eclipse was bitching about a serialVersionUID.
-                private static final long serialVersionUID = 666L; {
+                private static final long serialVersionUID = 666L;
+
+                {
                     add(data);
                 }
             });
@@ -116,11 +120,12 @@ public class EventManager {
     public static final Event call(final Event event) {
         List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
 
-        try{
+        try {
             for (final MethodData data : dataList) {
                 invoke(data, event);
             }
-        }catch (NullPointerException exception) {}
+        } catch (NullPointerException exception) {
+        }
 
         return event;
     }
@@ -146,14 +151,9 @@ public class EventManager {
         /**
          * Sets the values of the data.
          *
-         * @param source
-         *         The source Object of the data. Used by the VM to
-         *         determine to which object it should send the call to.
-         * @param target
-         *         The targeted Method to which the Event should be send to.
-         * @param priority
-         *         The priority of this Method. Used by the registry to sort
-         *         the data on.
+         * @param source   The source Object of the data. Used by the VM to determine to which object it should send the call to.
+         * @param target   The targeted Method to which the Event should be send to.
+         * @param priority The priority of this Method. Used by the registry to sort the data on.
          */
         public MethodData(Object source, Method target, byte priority) {
             this.source = source;

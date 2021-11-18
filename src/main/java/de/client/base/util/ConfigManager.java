@@ -11,14 +11,15 @@ import de.client.base.module.Module;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigManager {
 
-    static final List<Module> toBeEnabled = new ArrayList<>();
-    static final File CONFIG_FILE;
+    static final  List<Module> toBeEnabled = new ArrayList<>();
+    static final  File         CONFIG_FILE;
     public static boolean      loaded      = false;
     public static boolean      enabled     = false;
 

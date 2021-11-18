@@ -5,12 +5,12 @@ import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
 
-    public final ModuleConfig config;
     protected static final MinecraftClient mc = MinecraftClient.getInstance();
-    private String name;
-    private String description;
-    private Category category;
-    private boolean toggled;
+    public final           ModuleConfig    config;
+    private final          String          name;
+    private final          String          description;
+    private final          Category        category;
+    private                boolean         toggled;
 
     protected Module(String name, String description, Category category) {
         this.name = name;

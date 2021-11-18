@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ModuleManager {
 
-    private List<Module> modules = new ArrayList<>();
+    private final List<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
         addModules();
@@ -22,15 +22,15 @@ public class ModuleManager {
         modules.add(module);
     }
 
-    @NotNull
-    public List<Module> getModules() {
+    @NotNull public List<Module> getModules() {
         return modules;
     }
 
-    @NotNull
     public Module getModuleByName(String name) {
-        for(Module m : modules) {
-            if(m.getName().equalsIgnoreCase(name)) return m;
+        for (Module m : modules) {
+            if (m.getName().equalsIgnoreCase(name)) {
+                return m;
+            }
         }
 
         return null;

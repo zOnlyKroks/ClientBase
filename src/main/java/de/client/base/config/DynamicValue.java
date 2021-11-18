@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DynamicValue<T> {
 
-    public final List<SelectorRunnable> selectors          = new ArrayList<>();
+    public final  List<SelectorRunnable> selectors          = new ArrayList<>();
     public final  T                      defaultValue;
     private final List<Runnable>         onChangedListeners = new ArrayList<>();
     private final String                 key;
@@ -87,6 +87,5 @@ public class DynamicValue<T> {
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted") boolean shouldShow();
     }
-
 
 }

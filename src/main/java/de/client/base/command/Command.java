@@ -2,15 +2,15 @@ package de.client.base.command;
 
 import net.minecraft.client.MinecraftClient;
 
-public class Command {
+public abstract class Command {
 
-    public MinecraftClient mc;
-    private String command;
-    private String alias;
+    public        MinecraftClient mc;
+    private final String          command;
+    private final String[]        alias;
 
-    public Command(String command, String alias) {
+    public Command(String command, String... aliases) {
         this.command = command;
-        this.alias = alias;
+        this.alias = aliases;
         this.mc = MinecraftClient.getInstance();
     }
 
@@ -18,9 +18,9 @@ public class Command {
         return command;
     }
 
-    public String getAlias() {
+    public String[] getAliases() {
         return alias;
     }
 
-    public void runCommand(String trimmedMessage) {}
+    public abstract void runCommand(String[] args);
 }

@@ -1,6 +1,6 @@
 package de.client.base.util;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Utils {
 

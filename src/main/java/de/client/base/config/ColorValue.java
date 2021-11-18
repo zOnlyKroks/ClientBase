@@ -2,7 +2,7 @@ package de.client.base.config;
 
 import de.client.base.util.Utils;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ColorValue extends DynamicValue<String> {
 

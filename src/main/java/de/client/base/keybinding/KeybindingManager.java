@@ -2,7 +2,6 @@ package de.client.base.keybinding;
 
 import de.client.base.ClientBase;
 import de.client.base.module.Module;
-import de.client.base.module.ModuleManager;
 
 import java.util.HashMap;
 import java.util.Map;

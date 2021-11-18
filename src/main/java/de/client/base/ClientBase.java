@@ -13,15 +13,11 @@ import java.io.File;
 
 public class ClientBase implements ModInitializer {
 
-    @Getter
-    private static ModuleManager moduleManager;
-    @Getter
-    private static CommandManager commandManager;
-    public static       File              CONFIG_STORAGE;
+    public static          File           CONFIG_STORAGE;
+    @Getter private static ModuleManager  moduleManager;
+    @Getter private static CommandManager commandManager;
 
-    @SneakyThrows
-    @Override
-    public void onInitialize() {
+    @SneakyThrows @Override public void onInitialize() {
         Runtime.getRuntime().addShutdownHook(new Thread(ConfigManager::saveState));
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();

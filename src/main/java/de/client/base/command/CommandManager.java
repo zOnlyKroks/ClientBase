@@ -1,38 +1,37 @@
 package de.client.base.command;
 
 import de.client.base.command.commands.BindCommand;
-import de.client.base.module.Module;
-import de.client.base.module.modules.movement.BasicStepModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommandManager {
 
-    private List<Command> commands = new ArrayList<>();
+    private final List<Command> commands = new ArrayList<>();
 
     public CommandManager() {
-        addModules();
+        addCommands();
     }
 
-    public void addModules() {
-        addModule(new BindCommand());
+    public void addCommands() {
+        addCommand(new BindCommand());
     }
 
-    private void addModule(Command command) {
+    private void addCommand(Command command) {
         commands.add(command);
     }
 
-    @NotNull
-    public List<Command> getModules() {
+    @NotNull public List<Command> getCommands() {
         return commands;
     }
 
-    @NotNull
-    public Command getModuleByName(String name) {
-        for(Command command : commands) {
-            if (command.getCommand() == name) return command;
+    public Command getCommandByName(String name) {
+        for (Command command : commands) {
+            if (Objects.equals(command.getCommand(), name)) {
+                return command;
+            }
         }
         return null;
     }
