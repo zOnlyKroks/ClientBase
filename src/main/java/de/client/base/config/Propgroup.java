@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Propgroup {
 
-    String                name;
-    List<DynamicValue<?>> children = new ArrayList<>();
+    final String                name;
+    final List<DynamicValue<?>> children = new ArrayList<>();
 
     public Propgroup(String name) {
         this.name = name;

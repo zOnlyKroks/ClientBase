@@ -13,6 +13,7 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,12 +59,13 @@ public class ConfigManager {
         loaded = true;
         try {
             if (!CONFIG_FILE.isFile()) {
+                //noinspection ResultOfMethodCallIgnored
                 CONFIG_FILE.delete();
             }
             if (!CONFIG_FILE.exists()) {
                 return;
             }
-            String retrv = FileUtils.readFileToString(CONFIG_FILE, Charsets.UTF_8);
+            String retrv = FileUtils.readFileToString(CONFIG_FILE, StandardCharsets.UTF_8);
             JsonObject config = new JsonParser().parse(retrv).getAsJsonObject();
             if (config.has("config") && config.get("config").isJsonArray()) {
                 JsonArray configArray = config.get("config").getAsJsonArray();

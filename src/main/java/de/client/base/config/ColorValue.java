@@ -31,11 +31,10 @@ public class ColorValue extends DynamicValue<String> {
 
     @Override public void setValue(Object value) {
 
-        String v = null;
-
         if (!(value instanceof String)) {
             return;
         }
+        String v = (String) value;
         boolean isRGB = v.endsWith(";");
         if (isRGB) {
             v = v.replaceAll(";", "");

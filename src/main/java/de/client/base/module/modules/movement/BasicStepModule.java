@@ -21,16 +21,4 @@ public class BasicStepModule extends Module {
         mc.player.stepHeight = 0.6F;
     }
 
-    /*@EventTarget
-    public void onMove(MoveEvent event) {
-        if(!isTouchingWall(mc.player.getBoundingBox())) return;
-
-        mc.player.jump();
-    }*/
-
-    /*private boolean isTouchingWall(Box box) {
-        // Check in 2 calls instead of just box.expand(0.01, 0, 0.01) to prevent it getting stuck in corners
-        return !mc.world.isSpaceEmpty(box.expand(0.02, 0, 0)) || !mc.world.isSpaceEmpty(box.expand(0, 0, 0.01));
-    }*/
-
 }

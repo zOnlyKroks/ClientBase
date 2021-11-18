@@ -33,15 +33,14 @@ public class EventManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static void register(Method method, Object object) {
         Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
         //New MethodData from the Method we are registering.
         final MethodData data = new MethodData(object, method, Priority.HIGHEST);
 
         //Set's the method to accessible so that we can also invoke it if it's protected or private.
-        if (!data.getTarget().isAccessible()) {
-            data.getTarget().setAccessible(true);
-        }
+        data.getTarget().setAccessible(true);
 
         if (REGISTRY_MAP.containsKey(indexClass)) {
             if (!REGISTRY_MAP.get(indexClass).contains(data)) {
@@ -51,7 +50,7 @@ public class EventManager {
         } else {
             REGISTRY_MAP.put(indexClass, new CopyOnWriteArrayList<MethodData>() {
                 //Eclipse was bitching about a serialVersionUID.
-                private static final long serialVersionUID = 666L;
+//                private static final long serialVersionUID = 666L;
 
                 {
                     add(data);
@@ -62,11 +61,7 @@ public class EventManager {
 
     public static void unregister(Object object) {
         for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
-            for (final MethodData data : dataList) {
-                if (data.getSource().equals(object)) {
-                    dataList.remove(data);
-                }
-            }
+            dataList.removeIf(data -> data.getSource().equals(object));
         }
 
         cleanMap(true);
@@ -74,11 +69,7 @@ public class EventManager {
 
     public static void unregister(Object object, Class<? extends Event> eventClass) {
         if (REGISTRY_MAP.containsKey(eventClass)) {
-            for (final MethodData data : REGISTRY_MAP.get(eventClass)) {
-                if (data.getSource().equals(object)) {
-                    REGISTRY_MAP.get(eventClass).remove(data);
-                }
-            }
+            REGISTRY_MAP.get(eventClass).removeIf(data -> data.getSource().equals(object));
 
             cleanMap(true);
         }
@@ -95,7 +86,7 @@ public class EventManager {
     }
 
     private static void sortListValue(Class<? extends Event> indexClass) {
-        List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
+        List<MethodData> sortedList = new CopyOnWriteArrayList<>();
 
         for (final byte priority : Priority.VALUE_ARRAY) {
             for (final MethodData data : REGISTRY_MAP.get(indexClass)) {
@@ -117,14 +108,14 @@ public class EventManager {
         return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
     }
 
-    public static final Event call(final Event event) {
+    public static Event call(final Event event) {
         List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
 
         try {
             for (final MethodData data : dataList) {
                 invoke(data, event);
             }
-        } catch (NullPointerException exception) {
+        } catch (NullPointerException ignored) {
         }
 
         return event;
@@ -133,9 +124,7 @@ public class EventManager {
     private static void invoke(MethodData data, Event argument) {
         try {
             data.getTarget().invoke(data.getSource(), argument);
-        } catch (IllegalAccessException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ignored) {
         }
     }
 

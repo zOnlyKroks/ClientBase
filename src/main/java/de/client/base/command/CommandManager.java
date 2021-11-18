@@ -27,13 +27,4 @@ public class CommandManager {
         return commands;
     }
 
-    public Command getCommandByName(String name) {
-        for (Command command : commands) {
-            if (Objects.equals(command.getCommand(), name)) {
-                return command;
-            }
-        }
-        return null;
-    }
-
 }

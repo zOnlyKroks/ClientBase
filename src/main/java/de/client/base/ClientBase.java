@@ -17,7 +17,7 @@ public class ClientBase implements ModInitializer {
     @Getter private static ModuleManager  moduleManager;
     @Getter private static CommandManager commandManager;
 
-    @SneakyThrows @Override public void onInitialize() {
+    @SuppressWarnings("ResultOfMethodCallIgnored") @SneakyThrows @Override public void onInitialize() {
         Runtime.getRuntime().addShutdownHook(new Thread(ConfigManager::saveState));
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();

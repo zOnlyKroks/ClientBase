@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatUtil {
 
-    @NotNull public static void send(final String s) {
+    public static void send(final String s) {
         MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of(s), MinecraftClient.getInstance().player.getUuid());
     }
 }

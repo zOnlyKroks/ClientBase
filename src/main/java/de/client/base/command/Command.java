@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 
 public abstract class Command {
 
-    public        MinecraftClient mc;
+    public final  MinecraftClient mc;
     private final String          command;
     private final String[]        alias;
 
