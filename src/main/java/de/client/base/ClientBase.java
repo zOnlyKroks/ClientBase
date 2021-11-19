@@ -2,6 +2,7 @@ package de.client.base;
 
 import de.client.base.command.CommandManager;
 import de.client.base.keybinding.KeybindingManager;
+import de.client.base.module.Module;
 import de.client.base.module.ModuleManager;
 import de.client.base.util.ConfigManager;
 import lombok.Getter;
@@ -26,5 +27,6 @@ public class ClientBase implements ModInitializer {
         KeybindingManager.init();
         ConfigManager.loadState();
         System.out.println("Initialized Client");
+        for(Module m : moduleManager.getModules()) if(m.getName().equalsIgnoreCase("arraylist")) m.toggle();
     }
 }

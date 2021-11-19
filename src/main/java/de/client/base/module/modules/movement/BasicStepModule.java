@@ -12,12 +12,10 @@ public class BasicStepModule extends Module {
     }
 
     @Override protected void onEnable() {
-        //        EventManager.register(this);
         mc.player.stepHeight = 69f;
     }
 
     @Override protected void onDisable() {
-        //        EventManager.unregister(this);
         mc.player.stepHeight = 0.6F;
     }
 

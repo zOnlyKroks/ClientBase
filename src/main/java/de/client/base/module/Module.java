@@ -12,7 +12,7 @@ public abstract class Module {
     private final          Category        category;
     private                boolean         toggled;
 
-    protected Module(String name, String description, Category category) {
+    public Module(String name, String description, Category category) {
         this.name = name;
         this.description = description;
         this.category = category;

@@ -1,6 +1,8 @@
 package de.client.base.module;
 
 import de.client.base.module.modules.movement.BasicStepModule;
+import de.client.base.module.modules.movement.NoFallModule;
+import de.client.base.module.modules.render.ArrayListModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ public class ModuleManager {
 
     public void addModules() {
         addModule(new BasicStepModule());
+        addModule(new NoFallModule());
+        addModule(new ArrayListModule());
     }
 
     private void addModule(Module module) {
