@@ -3,6 +3,7 @@ package de.client.base.module;
 import de.client.base.module.modules.movement.BasicStepModule;
 import de.client.base.module.modules.movement.NoFallModule;
 import de.client.base.module.modules.render.ArrayListModule;
+import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
