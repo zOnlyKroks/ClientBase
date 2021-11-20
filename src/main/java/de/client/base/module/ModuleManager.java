@@ -1,5 +1,6 @@
 package de.client.base.module;
 
+import de.client.base.module.modules.misc.AutoclickerModule;
 import de.client.base.module.modules.movement.BasicStepModule;
 import de.client.base.module.modules.movement.NoFallModule;
 import de.client.base.module.modules.render.ArrayListModule;
@@ -20,6 +21,7 @@ public class ModuleManager {
         addModule(new BasicStepModule());
         addModule(new NoFallModule());
         addModule(new ArrayListModule());
+        addModule(new AutoclickerModule());
     }
 
     private void addModule(Module module) {

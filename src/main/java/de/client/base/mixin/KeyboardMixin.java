@@ -18,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
     }
 
     @Inject(method = "onKey", at = @At("RETURN")) void atomic_postKeyPressed(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (window == MinecraftClient.getInstance().getWindow()
-                .getHandle() && MinecraftClient.getInstance().currentScreen == null) { // make sure we are in game and the screen has been there for at least 10 ms
+        if (window == MinecraftClient.getInstance().getWindow().getHandle() && MinecraftClient
+                .getInstance().currentScreen == null) { // make sure we are in game and the screen has been there for at least 10 ms
 
             KeybindingManager.updateSingle(key, action);
         }

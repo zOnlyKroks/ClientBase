@@ -11,7 +11,7 @@ public abstract class Module {
     private final          String          name;
     private final          String          description;
     private final          Category        category;
-    public IntSetting keybind;
+    public                 IntSetting      keybind;
     private                boolean         enabled;
 
     public Module(String name, String description, Category category) {
