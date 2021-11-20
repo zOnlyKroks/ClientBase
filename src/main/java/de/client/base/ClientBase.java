@@ -27,6 +27,10 @@ public class ClientBase implements ModInitializer {
         KeybindingManager.init();
         ConfigManager.loadState();
         System.out.println("Initialized Client");
-        for(Module m : moduleManager.getModules()) if(m.getName().equalsIgnoreCase("arraylist")) m.toggle();
+        for (Module m : moduleManager.getModules()) {
+            if (m.getName().equalsIgnoreCase("arraylist")) {
+                m.toggle();
+            }
+        }
     }
 }

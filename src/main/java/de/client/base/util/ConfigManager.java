@@ -5,14 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.client.base.ClientBase;
-import de.client.base.config.DynamicValue;
 import de.client.base.keybinding.KeybindingManager;
 import de.client.base.module.Module;
+import de.client.base.newConfig.SettingBase;
 import net.fabricmc.loader.api.FabricLoader;
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,23 +25,28 @@ public class ConfigManager {
     public static boolean      enabled     = false;
 
     static {
-        CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir() + "/config.atomic");
+        CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir() + "/config.clientbase");
     }
 
     public static void saveState() {
+        if (!loaded || !enabled) {
+            System.out.println("Not saving config because we didnt load it yet");
+            return;
+        }
+        System.out.println("Saving state");
         JsonObject base = new JsonObject();
         JsonArray enabled = new JsonArray();
         JsonArray config = new JsonArray();
         for (Module module : ClientBase.getModuleManager().getModules()) {
-            if (module.isToggled()) {
+            if (module.isEnabled()) {
                 enabled.add(module.getName());
             }
             JsonObject currentConfig = new JsonObject();
             currentConfig.addProperty("name", module.getName());
             JsonArray pairs = new JsonArray();
-            for (DynamicValue<?> dynamicValue : module.config.getAll()) {
+            for (SettingBase<?> dynamicValue : module.config.getSettings()) {
                 JsonObject jesus = new JsonObject();
-                jesus.addProperty("key", dynamicValue.getKey());
+                jesus.addProperty("key", dynamicValue.getName());
                 jesus.addProperty("value", dynamicValue.getValue() + "");
                 pairs.add(jesus);
             }
@@ -50,6 +55,12 @@ public class ConfigManager {
         }
         base.add("enabled", enabled);
         base.add("config", config);
+        try {
+            FileUtils.write(CONFIG_FILE, base.toString(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to save config!");
+        }
     }
 
     public static void loadState() {
@@ -83,12 +94,9 @@ public class ConfigManager {
                                 JsonObject jo = pair.getAsJsonObject();
                                 String key = jo.get("key").getAsString();
                                 String value = jo.get("value").getAsString();
-                                DynamicValue<?> val = j.config.get(key);
+                                SettingBase<?> val = j.config.get(key);
                                 if (val != null) {
-                                    Object newValue = TypeConverter.convert(value, val.getType());
-                                    if (newValue != null) {
-                                        val.setValue(newValue);
-                                    }
+                                    val.accept(value);
                                 }
                             }
                         }
@@ -119,6 +127,7 @@ public class ConfigManager {
         }
         enabled = true;
         for (Module module : toBeEnabled) {
+
             module.toggle();
         }
     }

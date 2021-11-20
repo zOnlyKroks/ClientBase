@@ -10,11 +10,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.BooleanSupplier;
 
-@Mixin(ClientWorld.class)
-public class ClientWorldMixin {
+@Mixin(ClientWorld.class) public class ClientWorldMixin {
 
-    @Inject(at = @At("HEAD"), method = "tick")
-    private void tickTime(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "tick") private void tickTime(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         EventManager.call(new UpdateEvent());
     }
 

@@ -31,7 +31,8 @@ public class BindCommand extends Command {
             return;
         }
         ChatUtil.send("BIND " + m.getName() + " -> " + kc + " (" + ((char) kc) + ")");
-        m.config.get("Keybind").setValue(kc);
+        //m.config.get("Keybind").setValue(kc);
+        m.keybind.setValue(kc);
         KeybindingManager.reload();
     }
 }

@@ -9,11 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(InGameHud.class)
-public class IngameHudMixin {
+@Mixin(InGameHud.class) public class IngameHudMixin {
 
-    @Inject(at = @At("HEAD"), method = "render")
-    public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    @Inject(at = @At("RETURN"), method = "render") public void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         EventManager.call(new RenderIngameHudEvent(matrices, tickDelta));
     }
 }

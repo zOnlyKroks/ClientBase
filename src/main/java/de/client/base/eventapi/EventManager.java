@@ -33,8 +33,7 @@ public class EventManager {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static void register(Method method, Object object) {
+    @SuppressWarnings("unchecked") private static void register(Method method, Object object) {
         Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
         //New MethodData from the Method we are registering.
         final MethodData data = new MethodData(object, method, Priority.HIGHEST);
@@ -50,7 +49,7 @@ public class EventManager {
         } else {
             REGISTRY_MAP.put(indexClass, new CopyOnWriteArrayList<MethodData>() {
                 //Eclipse was bitching about a serialVersionUID.
-//                private static final long serialVersionUID = 666L;
+                //                private static final long serialVersionUID = 666L;
 
                 {
                     add(data);

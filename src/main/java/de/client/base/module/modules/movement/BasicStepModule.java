@@ -19,5 +19,4 @@ public class BasicStepModule extends Module {
         mc.player.stepHeight = 0.6F;
     }
 
-
 }

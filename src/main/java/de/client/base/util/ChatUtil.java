@@ -3,7 +3,6 @@ package de.client.base.util;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.NotNull;
 
 public class ChatUtil {
 

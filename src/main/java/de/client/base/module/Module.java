@@ -1,6 +1,7 @@
 package de.client.base.module;
 
-import de.client.base.config.ModuleConfig;
+import de.client.base.newConfig.IntSetting;
+import de.client.base.newConfig.ModuleConfig;
 import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
@@ -10,14 +11,16 @@ public abstract class Module {
     private final          String          name;
     private final          String          description;
     private final          Category        category;
-    private                boolean         toggled;
+    public IntSetting keybind;
+    private                boolean         enabled;
 
     public Module(String name, String description, Category category) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.config = new ModuleConfig();
-        this.config.create("Keybind", -1).description("The keybind to toggle the module with");
+        keybind = config.create(new IntSetting.Builder(-1).min(-1).name("Keybind").description("The keybind to toggle the module with").get());
+        // this.config.create("Keybind", -1).description("The keybind to toggle the module with");
     }
 
     public String getName() {
@@ -32,22 +35,24 @@ public abstract class Module {
         return category;
     }
 
-    public boolean isToggled() {
-        return toggled;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void toggle() {
-        toggled = !toggled;
-        if (toggled) {
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        if (this.enabled) {
             onEnable();
         } else {
             onDisable();
         }
     }
 
-    protected void onEnable() {
+    public void toggle() {
+        setEnabled(!isEnabled());
     }
 
-    protected void onDisable() {
-    }
+    protected abstract void onEnable();
+
+    protected abstract void onDisable();
 }

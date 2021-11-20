@@ -6,50 +6,37 @@ import de.client.base.eventapi.EventManager;
 import de.client.base.eventapi.EventTarget;
 import de.client.base.module.Category;
 import de.client.base.module.Module;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
+import de.client.base.newConfig.DoubleSetting;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.Comparator;
 
 public class ArrayListModule extends Module {
+    DoubleSetting speed = this.config.create(new DoubleSetting.Builder(2000).min(10).max(5000).name("Speed").description("How fast to do RGB").get());
 
     public ArrayListModule() {
         super("ArrayList", "Usefull to know what is active", Category.RENDER);
     }
 
-    @Override
-    protected void onEnable() {
+    @Override protected void onEnable() {
         EventManager.register(this);
-        super.onEnable();
     }
 
-    @Override
-    protected void onDisable() {
+    @Override protected void onDisable() {
         EventManager.unregister(this);
-        super.onDisable();
     }
 
-    @EventTarget
-    public void onRenderIngameHud(RenderIngameHudEvent event) {
-        TextRenderer renderer = MinecraftClient.getInstance().inGameHud.getFontRenderer();
-        int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        int y = 2;
-        final int counter[] = {1};
-
-        for(Module module : ClientBase.getModuleManager().getModules()) {
-            if(!(module.getName().equalsIgnoreCase("arraylist"))) {
-                if(module.isToggled()) {
-                    renderer.drawWithShadow(event.getStack(), module.getName(), width - renderer.getWidth(module.getName()) - 2,y, rainbow(counter[0] * 300));
-                    y += renderer.fontHeight;
-                    counter[0]++;
-                }
+    @EventTarget public void onRenderIngameHud(RenderIngameHudEvent event) {
+        int yOffset = 1;
+        float rgb = (System.currentTimeMillis() % 2000) / 2000f;
+        for (Module module : ClientBase.getModuleManager().getModules().stream().sorted(Comparator.comparingInt(value -> -mc.textRenderer.getWidth(value.getName()))).toList()) {
+            if (module.isEnabled()) {
+                rgb += 0.1f;
+                rgb %= 1;
+                Color current = Color.getHSBColor(rgb, 0.6f, 1f);
+                mc.textRenderer.draw(event.getStack(), module.getName(), mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(module.getName()) - 1, yOffset, current.getRGB());
+                yOffset += mc.textRenderer.fontHeight;
             }
         }
-    }
-
-    public static int rainbow(int delay) {
-        double rainbowstate = Math.ceil((System.currentTimeMillis() + delay) / 20.0);
-        rainbowstate %= 360;
-        return Color.getHSBColor((float) rainbowstate / 360, 0.5f,1f).getRGB();
     }
 }

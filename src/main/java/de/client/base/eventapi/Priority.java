@@ -5,8 +5,7 @@ public class Priority {
     /**
      * Highest priority, called first.
      */
-    public static final byte HIGHEST = 0,
-    /**
+    public static final byte HIGHEST = 0, /**
      * High priority, called after the highest priority.
      */
     HIGH = 1, /**
@@ -25,7 +24,7 @@ public class Priority {
      */
     public static final byte[] VALUE_ARRAY;
 
-//    Sets up the VALUE_ARRAY the first time anything in this class is called.
+    //    Sets up the VALUE_ARRAY the first time anything in this class is called.
     static {
         VALUE_ARRAY = new byte[]{HIGHEST, HIGH, MEDIUM, LOW, LOWEST};
     }

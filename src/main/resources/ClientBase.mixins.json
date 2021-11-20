@@ -2,12 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "de.client.base.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "KeyboardMixin",
     "ClientPlayerEntityMixin",
     "ClientWorldMixin",
-    "IngameHudMixin"
+    "IngameHudMixin",
+    "KeyboardMixin",
+    "MinecraftClientMixin"
   ],
   "client": [
   ],

@@ -5,6 +5,7 @@ import de.client.base.command.Command;
 import de.client.base.event.MoveEvent;
 import de.client.base.eventapi.EventManager;
 import de.client.base.util.ChatUtil;
+import de.client.base.util.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,26 +23,6 @@ import java.util.Arrays;
         EventManager.call(new MoveEvent());
     }
 
-    /**
-     *
-     */
-    /*@Overwrite
-    public void sendChatMessage(String message) {
-        if(message.toLowerCase().startsWith(PREFIX)) {
-
-        }
-        *//*if(message.charAt(0) == '.') {
-            for(Command cmd : ClientBase.getCommandManager().getCommands()) {
-                if(message.contains(cmd.getAlias())) {
-                    String trimmedMessage = message.replace(".", "");
-                    String moreTrimmedMessage = trimmedMessage.replace(cmd.getAlias() + "", "");
-                    cmd.runCommand(moreTrimmedMessage);
-                }
-            }
-        }else{
-            MinecraftClient.getInstance().getNetworkHandler().sendPacket(new ChatMessageC2SPacket(message));
-        }*//*
-    }*/
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true) void sendChatMsg(String message, CallbackInfo ci) {
         if (message.toLowerCase().startsWith(PREFIX)) {
             ci.cancel();
@@ -65,6 +46,12 @@ import java.util.Arrays;
                 return;
             }
             found.runCommand(args);
+        }
+    }
+
+    @Inject(method = "tick", at = @At("HEAD")) void tick(CallbackInfo ci) {
+        if (!ConfigManager.enabled) {
+            ConfigManager.enableModules();
         }
     }
 

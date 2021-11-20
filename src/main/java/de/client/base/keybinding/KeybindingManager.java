@@ -12,7 +12,7 @@ public class KeybindingManager {
 
     public static void init() {
         for (Module module : ClientBase.getModuleManager().getModules()) {
-            keybindMap.put(module, new Keybind(Integer.parseInt(module.config.get("Keybind").getValue() + "")));
+            keybindMap.put(module, new Keybind(module.keybind.getValue()));
         }
     }
 
