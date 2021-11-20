@@ -127,8 +127,7 @@ public class ConfigManager {
         }
         enabled = true;
         for (Module module : toBeEnabled) {
-
-            module.toggle();
+            module.setEnabled(true);
         }
     }
 
