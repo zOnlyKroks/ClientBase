@@ -5,7 +5,6 @@ import de.client.base.eventapi.EventManager;
 import de.client.base.eventapi.EventTarget;
 import de.client.base.module.Category;
 import de.client.base.module.Module;
-import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -38,8 +37,8 @@ public class AutoclickerModule extends Module {
                 return;
             }
             BlockHitResult result = (BlockHitResult) mc.crosshairTarget;
-//            mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result));
-            mc.interactionManager.interactBlock(mc.player,mc.world,Hand.MAIN_HAND,result);
+            //            mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result));
+            mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, result);
             ticks = 0;
         }
     }

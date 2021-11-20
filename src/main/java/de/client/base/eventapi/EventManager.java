@@ -8,12 +8,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
+/**
+ * The event manager
+ */
 public class EventManager {
 
+    /**
+     * A list of all event handlers
+     */
     private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
 
-
+    /**
+     * Registers a new event handler
+     *
+     * @param object The event handler class
+     */
     public static void register(Object object) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method)) {
@@ -23,6 +32,12 @@ public class EventManager {
         }
     }
 
+    /**
+     * Registers a new event handler
+     *
+     * @param object     The event handler class
+     * @param eventClass The event to subscribe to
+     */
     public static void register(Object object, Class<? extends Event> eventClass) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method, eventClass)) {
@@ -33,6 +48,12 @@ public class EventManager {
         }
     }
 
+    /**
+     * Inner register, parses info about the event handler in question and registers it
+     *
+     * @param method The event handler
+     * @param object The instance of the class containing the event handler
+     */
     @SuppressWarnings("unchecked") private static void register(Method method, Object object) {
         Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
         //New MethodData from the Method we are registering.
@@ -58,6 +79,11 @@ public class EventManager {
         }
     }
 
+    /**
+     * Removes a registered class
+     *
+     * @param object The instance of the class to unsubscribe
+     */
     public static void unregister(Object object) {
         for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
             dataList.removeIf(data -> data.getSource().equals(object));
@@ -66,6 +92,12 @@ public class EventManager {
         cleanMap(true);
     }
 
+    /**
+     * Removes a registered class
+     *
+     * @param object     The instance of the class to unsubscribe
+     * @param eventClass The event to unregister
+     */
     public static void unregister(Object object, Class<? extends Event> eventClass) {
         if (REGISTRY_MAP.containsKey(eventClass)) {
             REGISTRY_MAP.get(eventClass).removeIf(data -> data.getSource().equals(object));
@@ -74,6 +106,11 @@ public class EventManager {
         }
     }
 
+    /**
+     * Cleans the registry map
+     *
+     * @param onlyEmptyEntries Clear only empty entries
+     */
     public static void cleanMap(boolean onlyEmptyEntries) {
         Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
 
@@ -99,14 +136,33 @@ public class EventManager {
         REGISTRY_MAP.put(indexClass, sortedList);
     }
 
+    /**
+     * Checks if a method isn't supposed to be treated as an event handler
+     *
+     * @param method The method to check
+     * @return true if it is an event handler, false if otherwise
+     */
     private static boolean isMethodBad(Method method) {
         return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventTarget.class);
     }
 
+    /**
+     * Checks if a method isn't supposed to be treated as an event handler for a specific event
+     *
+     * @param method     The method to check
+     * @param eventClass The event class that is supposed to be listened for
+     * @return true if it is an event handler, false if otherwise
+     */
     private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
         return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
     }
 
+    /**
+     * Fires an event chain
+     *
+     * @param event The event to send
+     * @return The modified event post call chain
+     */
     public static Event call(final Event event) {
         List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
 
@@ -120,6 +176,12 @@ public class EventManager {
         return event;
     }
 
+    /**
+     * Invokes a method with the given event as argument
+     *
+     * @param data     The method to invoke
+     * @param argument The event to send
+     */
     private static void invoke(MethodData data, Event argument) {
         try {
             data.getTarget().invoke(data.getSource(), argument);
@@ -128,13 +190,7 @@ public class EventManager {
     }
 
 
-    private static final class MethodData {
-
-        private final Object source;
-
-        private final Method target;
-
-        private final byte priority;
+    private record MethodData(Object source, Method target, byte priority) {
 
         /**
          * Sets the values of the data.
@@ -143,10 +199,7 @@ public class EventManager {
          * @param target   The targeted Method to which the Event should be send to.
          * @param priority The priority of this Method. Used by the registry to sort the data on.
          */
-        public MethodData(Object source, Method target, byte priority) {
-            this.source = source;
-            this.target = target;
-            this.priority = priority;
+        private MethodData {
         }
 
         /**

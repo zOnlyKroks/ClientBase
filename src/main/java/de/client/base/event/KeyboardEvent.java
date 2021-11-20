@@ -2,15 +2,9 @@ package de.client.base.event;
 
 import de.client.base.eventapi.Event;
 
-public class KeyboardEvent implements Event {
+/**
+ * Emitted when the user interacted via the keyboard while in game (screen is null)
+ */
+public record KeyboardEvent(int key) implements Event {
 
-    private final int key;
-
-    public KeyboardEvent(int key) {
-        this.key = key;
-    }
-
-    public int getKey() {
-        return key;
-    }
 }

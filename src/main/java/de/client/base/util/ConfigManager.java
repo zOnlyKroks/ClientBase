@@ -8,14 +8,19 @@ import de.client.base.ClientBase;
 import de.client.base.keybinding.KeybindingManager;
 import de.client.base.module.Module;
 import de.client.base.newConfig.SettingBase;
-import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterOutputStream;
 
 public class ConfigManager {
 
@@ -25,9 +30,82 @@ public class ConfigManager {
     public static boolean      enabled     = false;
 
     static {
-        CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir() + "/config.clientbase");
+        CONFIG_FILE = new File(ClientBase.BASE, "config." + ClientBase.CLIENT_ID);
     }
 
+    /**
+     * Encrypts a byte array with a key
+     *
+     * @param in  The byte array to encrypt
+     * @param key The key to use
+     * @return The encrypted byte array
+     * @throws Exception If something goes wrong
+     */
+    static byte[] encrypt(byte[] in, String key) throws Exception {
+        byte[] k = key.getBytes(StandardCharsets.UTF_8);
+        MessageDigest msgd = MessageDigest.getInstance("SHA-1");
+        k = msgd.digest(k);
+        k = Arrays.copyOf(k, 16);
+        SecretKeySpec sks = new SecretKeySpec(k, "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, sks);
+        //        return Base64.getEncoder().encodeToString(cipher.doFinal(in.getBytes(StandardCharsets.UTF_8)));
+        return cipher.doFinal(in);
+    }
+
+    /**
+     * Compresses a byte array using GZIP Deflate
+     *
+     * @param in The input
+     * @return The compressed output
+     * @throws Exception If something goes wrong
+     */
+    public static byte[] compress(byte[] in) throws Exception {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try (DeflaterOutputStream dos = new DeflaterOutputStream(os)) {
+            dos.write(in);
+        }
+        return os.toByteArray();
+    }
+
+    /**
+     * Decompressed a byte array using GZIP Inflate
+     *
+     * @param in The compressed data
+     * @return The decompressed date
+     * @throws Exception If something goes wrong
+     */
+    public static byte[] decompress(byte[] in) throws Exception {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try (InflaterOutputStream ios = new InflaterOutputStream(os)) {
+            ios.write(in);
+        }
+
+        return os.toByteArray();
+    }
+
+    /**
+     * Decrypts a byte array with a key
+     *
+     * @param in  The byte array to decrypt
+     * @param key The key used to encrypt the byte array
+     * @return The decrypted byte array
+     * @throws Exception If something goes wrong
+     */
+    static byte[] decrypt(byte[] in, String key) throws Exception {
+        byte[] k = key.getBytes(StandardCharsets.UTF_8);
+        MessageDigest msgd = MessageDigest.getInstance("SHA-1");
+        k = msgd.digest(k);
+        k = Arrays.copyOf(k, 16);
+        SecretKeySpec sks = new SecretKeySpec(k, "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, sks);
+        return cipher.doFinal(in);
+    }
+
+    /**
+     * Saves the current state of the client to the file
+     */
     public static void saveState() {
         if (!loaded || !enabled) {
             System.out.println("Not saving config because we didnt load it yet");
@@ -56,13 +134,17 @@ public class ConfigManager {
         base.add("enabled", enabled);
         base.add("config", config);
         try {
-            FileUtils.write(CONFIG_FILE, base.toString(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
+            FileUtils.writeByteArrayToFile(CONFIG_FILE, encrypt(compress(base.toString().getBytes(StandardCharsets.UTF_8)), "amogus"));
+            //            FileUtils.write(CONFIG_FILE, encrypt(base.toString(), "amogus"), StandardCharsets.UTF_8);
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to save config!");
         }
     }
 
+    /**
+     * Loads the state we saved earlier from the file
+     */
     public static void loadState() {
         if (loaded) {
             return;
@@ -76,8 +158,10 @@ public class ConfigManager {
             if (!CONFIG_FILE.exists()) {
                 return;
             }
-            String retrv = FileUtils.readFileToString(CONFIG_FILE, StandardCharsets.UTF_8);
-            JsonObject config = new JsonParser().parse(retrv).getAsJsonObject();
+            byte[] retrv = FileUtils.readFileToByteArray(CONFIG_FILE);
+            //            String retrv = FileUtils.readFileToString(CONFIG_FILE, StandardCharsets.UTF_8);
+            String decr = new String(decompress(decrypt(retrv, "amogus")));
+            JsonObject config = new JsonParser().parse(decr).getAsJsonObject();
             if (config.has("config") && config.get("config").isJsonArray()) {
                 JsonArray configArray = config.get("config").getAsJsonArray();
                 for (JsonElement jsonElement : configArray) {
@@ -121,6 +205,9 @@ public class ConfigManager {
         }
     }
 
+    /**
+     * Enables all modules to be enabled, when we are in game
+     */
     public static void enableModules() {
         if (enabled) {
             return;

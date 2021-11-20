@@ -3,6 +3,9 @@ package de.client.base.newConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A group of settings
+ */
 public class SettingsGroup {
     String name, description;
     List<SettingBase<?>> settings;

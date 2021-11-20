@@ -8,22 +8,29 @@ import de.client.base.util.ConfigManager;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 
 public class ClientBase implements ModInitializer {
 
-    public static          File           CONFIG_STORAGE;
+    public static String CLIENT_ID = "clientbase";
+
+    public static File BASE = new File(MinecraftClient.getInstance().runDirectory, CLIENT_ID);
+
     @Getter private static ModuleManager  moduleManager;
     @Getter private static CommandManager commandManager;
 
     @SuppressWarnings("ResultOfMethodCallIgnored") @SneakyThrows @Override public void onInitialize() {
         Runtime.getRuntime().addShutdownHook(new Thread(ConfigManager::saveState));
+        if (BASE.exists() && !BASE.isDirectory()) {
+            BASE.delete();
+        }
+        if (!BASE.exists()) {
+            BASE.mkdir();
+        }
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
-        CONFIG_STORAGE = new File(FabricLoader.getInstance().getConfigDir() + "/atomicConfigs.json");
-        CONFIG_STORAGE.createNewFile();
         KeybindingManager.init();
         ConfigManager.loadState();
         System.out.println("Initialized Client");

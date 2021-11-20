@@ -1,5 +1,8 @@
 package de.client.base.newConfig;
 
+/**
+ * A setting describing a boolean
+ */
 public class BooleanSetting extends SettingBase<Boolean> {
 
     public BooleanSetting(Boolean defaultValue, String name, String description) {
