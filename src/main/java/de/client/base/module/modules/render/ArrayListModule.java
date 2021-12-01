@@ -34,7 +34,7 @@ public class ArrayListModule extends Module {
                 rgb += 0.1f;
                 rgb %= 1;
                 Color current = Color.getHSBColor(rgb, 0.6f, 1f);
-                mc.textRenderer.draw(event.stack(), module.getName(), mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(module.getName()) - 1, yOffset, current.getRGB());
+                mc.textRenderer.draw(event.getStack(), module.getName(), mc.getWindow().getScaledWidth() - mc.textRenderer.getWidth(module.getName()) - 1, yOffset, current.getRGB());
                 yOffset += mc.textRenderer.fontHeight;
             }
         }

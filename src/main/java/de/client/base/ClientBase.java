@@ -7,11 +7,14 @@ import de.client.base.module.ModuleManager;
 import de.client.base.util.ConfigManager;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 
 import java.io.File;
 
+@Environment(EnvType.CLIENT)
 public class ClientBase implements ModInitializer {
 
     public static String CLIENT_ID = "clientbase";
@@ -33,11 +36,11 @@ public class ClientBase implements ModInitializer {
         commandManager = new CommandManager();
         KeybindingManager.init();
         ConfigManager.loadState();
-        System.out.println("Initialized Client");
         for (Module m : moduleManager.getModules()) {
             if (m.getName().equalsIgnoreCase("arraylist")) {
                 m.toggle();
             }
         }
+        System.out.println("Initialized Client");
     }
 }

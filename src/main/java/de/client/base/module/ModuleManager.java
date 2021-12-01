@@ -1,8 +1,10 @@
 package de.client.base.module;
 
 import de.client.base.module.modules.misc.AutoclickerModule;
+import de.client.base.module.modules.misc.ClickGui;
 import de.client.base.module.modules.movement.BasicStepModule;
 import de.client.base.module.modules.movement.NoFallModule;
+import de.client.base.module.modules.movement.Velocity;
 import de.client.base.module.modules.render.ArrayListModule;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +38,8 @@ public class ModuleManager {
         addModule(new NoFallModule());
         addModule(new ArrayListModule());
         addModule(new AutoclickerModule());
+        addModule(new ClickGui());
+        addModule(new Velocity());
     }
 
     /**

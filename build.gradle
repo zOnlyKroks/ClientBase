@@ -14,6 +14,15 @@ repositories {
     // for more information about repositories.
     mavenCentral()
     jcenter()
+    maven { url "https://jitpack.io" }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+        content {
+            includeGroup 'io.github.ladysnake'
+            includeGroupByRegex 'io\\.github\\.onyxstudios.*'
+        }
+    }
 }
 
 dependencies {
@@ -31,6 +40,12 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    modImplementation "io.github.ladysnake:satin:1.5.1"
+    // Include Satin as a Jar-in-Jar dependency (optional)
+    include "io.github.ladysnake:satin:1.5.1"
 }
 
 processResources {

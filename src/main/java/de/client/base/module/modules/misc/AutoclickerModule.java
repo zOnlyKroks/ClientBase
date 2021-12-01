@@ -32,7 +32,7 @@ public class AutoclickerModule extends Module {
         ticks++;
         System.out.println(ticks);
 
-        if (ticks >= 1) {
+        if (ticks >= 2) {
             if (mc.crosshairTarget.getType() != HitResult.Type.BLOCK) {
                 return;
             }

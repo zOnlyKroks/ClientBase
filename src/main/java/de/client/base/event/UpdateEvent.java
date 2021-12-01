@@ -5,5 +5,5 @@ import de.client.base.eventapi.Event;
 /**
  * Emitted when the game ticks in-game
  */
-public class UpdateEvent implements Event {
+public class UpdateEvent extends Event {
 }
