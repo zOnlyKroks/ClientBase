@@ -1,6 +1,5 @@
 package de.client.base.gui;
 
-import ca.weblite.objc.Client;
 import de.client.base.ClientBase;
 import de.client.base.module.Module;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +25,7 @@ public class ClickGui extends Screen {
         int textColor = Color.WHITE.getRGB();
 
         for (Module mod : ClientBase.getModuleManager().getModules()) {
-            MinecraftClient.getInstance().inGameHud.getFontRenderer().drawWithShadow(matrices, mod.getName(), width - textRenderer.getWidth(mod.getName()), height, textColor);
+            MinecraftClient.getInstance().inGameHud.getTextRenderer().drawWithShadow(matrices, mod.getName(), width - textRenderer.getWidth(mod.getName()), height, textColor);
         }
         super.render(matrices, mouseX, mouseY, delta);
     }

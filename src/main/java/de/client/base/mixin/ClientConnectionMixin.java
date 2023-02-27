@@ -8,6 +8,8 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketCallbacks;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,8 +26,8 @@ public class ClientConnectionMixin {
     /**
      * @author zOnlyKroks
      */
-    @Inject(at = @At("RETURN"), method = "send(Lnet/minecraft/network/Packet;Lio/netty/util/concurrent/GenericFutureListener;)V")
-    public void send(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> callback, CallbackInfo ci) {
+    @Inject(at = @At("RETURN"), method = "send(Lnet/minecraft/network/Packet;Lnet/minecraft/network/PacketCallbacks;)V")
+    public void send(Packet<?> packet, @Nullable PacketCallbacks callbacks, CallbackInfo ci) {
         PacketSendEvent event = new PacketSendEvent(packet);
         EventManager.call(event);
         if(event.isCancelled()) ci.cancel();

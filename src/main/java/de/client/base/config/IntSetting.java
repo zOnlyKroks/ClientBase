@@ -1,4 +1,4 @@
-package de.client.base.newConfig;
+package de.client.base.config;
 
 public class IntSetting extends SettingBase<Integer> {
     int min, max;

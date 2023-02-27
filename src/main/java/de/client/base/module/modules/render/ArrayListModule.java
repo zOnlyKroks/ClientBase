@@ -6,7 +6,7 @@ import de.client.base.eventapi.EventManager;
 import de.client.base.eventapi.EventTarget;
 import de.client.base.module.Category;
 import de.client.base.module.Module;
-import de.client.base.newConfig.DoubleSetting;
+import de.client.base.config.DoubleSetting;
 
 import java.awt.Color;
 import java.util.Comparator;

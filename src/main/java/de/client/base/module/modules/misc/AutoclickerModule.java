@@ -38,7 +38,7 @@ public class AutoclickerModule extends Module {
             }
             BlockHitResult result = (BlockHitResult) mc.crosshairTarget;
             //            mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, result));
-            mc.interactionManager.interactBlock(mc.player, mc.world, Hand.MAIN_HAND, result);
+            mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);
             ticks = 0;
         }
     }

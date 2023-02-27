@@ -8,6 +8,7 @@ import de.client.base.util.ChatUtil;
 import de.client.base.util.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,12 +24,12 @@ import java.util.Arrays;
         EventManager.call(new MoveEvent());
     }
 
-    @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true) void sendChatMsg(String message, CallbackInfo ci) {
-        if (message.toLowerCase().startsWith(PREFIX)) {
+    @Inject(method = "sendMessage(Lnet/minecraft/text/Text;)V", at = @At("HEAD"), cancellable = true) void sendChatMsg(Text message, CallbackInfo ci) {
+        if (message.getString().startsWith(PREFIX)) {
             ci.cancel();
-            MinecraftClient.getInstance().inGameHud.getChatHud().addToMessageHistory(message); // add to history
+            MinecraftClient.getInstance().inGameHud.getChatHud().addToMessageHistory(message.getString()); // add to history
             ci.cancel();
-            String msgTrimmed = message.substring(PREFIX.length());
+            String msgTrimmed = message.toString().substring(PREFIX.length());
             String[] msgSplit = msgTrimmed.split(" +");
             String command = msgSplit[0].toLowerCase();
             String[] args = new String[msgSplit.length - 1];
@@ -42,7 +43,6 @@ import java.util.Arrays;
             }
             if (found == null) {
                 ChatUtil.send("§cCommand wasn't found!");
-                //                MinecraftClient.getInstance().player.sendMessage(Text.of("§cCommand wasn't found"), false);
                 return;
             }
             found.runCommand(args);

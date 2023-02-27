@@ -1,7 +1,7 @@
 package de.client.base.module;
 
-import de.client.base.newConfig.IntSetting;
-import de.client.base.newConfig.ModuleConfig;
+import de.client.base.config.IntSetting;
+import de.client.base.config.ModuleConfig;
 import net.minecraft.client.MinecraftClient;
 
 /**

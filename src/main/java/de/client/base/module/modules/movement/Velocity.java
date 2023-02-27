@@ -32,13 +32,12 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onPacketRead(PacketReadEvent event) {
-
         if(!(event.getPacket() instanceof EntityVelocityUpdateS2CPacket)) return;
 
         EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) event.getPacket();
 
         if(mc.player == null || mc.player.hurtTime <= 0) return;
-        if (packet.getId() == mc.player.getEntityId()) {
+        if (packet.getId() == mc.player.getId()) {
             FabricReflect.writeField(packet, (int) (packet.getVelocityX() * (0.5 / 100)), "field_12563", "velocityX");
             FabricReflect.writeField(packet, (int) (packet.getVelocityY() * (0.5 / 100)), "field_12562", "velocityY");
             FabricReflect.writeField(packet, (int) (packet.getVelocityZ() * (0.5 / 100)), "field_12561", "velocityZ");

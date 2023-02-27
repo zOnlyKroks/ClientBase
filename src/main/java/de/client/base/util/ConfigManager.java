@@ -7,7 +7,7 @@ import com.google.gson.JsonParser;
 import de.client.base.ClientBase;
 import de.client.base.keybinding.KeybindingManager;
 import de.client.base.module.Module;
-import de.client.base.newConfig.SettingBase;
+import de.client.base.config.SettingBase;
 import org.apache.commons.io.FileUtils;
 
 import javax.crypto.Cipher;
@@ -49,7 +49,6 @@ public class ConfigManager {
         SecretKeySpec sks = new SecretKeySpec(k, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, sks);
-        //        return Base64.getEncoder().encodeToString(cipher.doFinal(in.getBytes(StandardCharsets.UTF_8)));
         return cipher.doFinal(in);
     }
 

@@ -28,7 +28,7 @@ public class NoFallModule extends Module {
         if (mc.player.isFallFlying()) {
             return;
         }
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(mc.player.getX(), mc.player.getY() - 420.69, mc.player.getZ(), true));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 420.69, mc.player.getZ(), true));
         mc.player.fallDistance = 0;
     }
 

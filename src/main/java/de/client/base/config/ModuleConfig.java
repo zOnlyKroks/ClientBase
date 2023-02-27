@@ -1,4 +1,4 @@
-package de.client.base.newConfig;
+package de.client.base.config;
 
 import java.util.ArrayList;
 import java.util.List;
